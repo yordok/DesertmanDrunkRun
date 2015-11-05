@@ -2,6 +2,7 @@ package com.mygdx.desertcommander;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,10 +15,10 @@ import sun.awt.X11.Screen;
 public class MainGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	float CameraScrollSpeed;
+	boolean CameraIsScrolling;
 	Player player;
 	Cactus c;
 	OrthographicCamera mainCamera;
-	Vector2 pastPos;//used to get the last frames position
 
 	@Override
 	public void create () {
@@ -25,6 +26,7 @@ public class MainGame extends ApplicationAdapter {
 		AssetInitializer AI = new AssetInitializer();
 		mainCamera = new OrthographicCamera();
 		mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		CameraIsScrolling = false;
 		CameraScrollSpeed = 1.0f;
 		c = new Cactus(new Vector2(1000, 100), AI.obstacleSprite);
 		player = new Player(20.0f,0,AI.playerSprite);
@@ -38,7 +40,7 @@ public class MainGame extends ApplicationAdapter {
 		this.update();
 		batch.setProjectionMatrix(mainCamera.combined);
 		batch.begin();
-		player.draw(batch);
+		player.draw(batch, mainCamera);
 		c.draw(batch);
 		batch.end();
 	}
@@ -47,21 +49,17 @@ public class MainGame extends ApplicationAdapter {
 		this.handleCamera();
 		player.move();
 
-
-
 	}
 	//an attempt to make the camera move
 	public void handleCamera(){
 		//this needs to be fixed, needs to be 300 in the camera space, not the world space
-		Vector3 PlayerinScreenSpace = mainCamera.project(new Vector3(player.getPosition().x, player.getPosition().y, 0));
-		if(PlayerinScreenSpace.x >= 500){
-			player.setSpeed(0);
+
+		CameraIsScrolling = true;
+
+		if(CameraIsScrolling){
+			player.setSpeed(4.0f);
 			mainCamera.position.set(mainCamera.position.x + CameraScrollSpeed, mainCamera.position.y, mainCamera.position.z);
 			mainCamera.update();
-
-		}
-		else{
-			player.setSpeed(3);
 		}
 
 	}
@@ -80,7 +78,7 @@ public class MainGame extends ApplicationAdapter {
 
 			@Override
 			public void onUp() {
-				player.setDirection(new Vector2(0, 1));
+				player.setDirection(new Vector2(CameraScrollSpeed, 3).nor());
 			}
 
 			@Override
@@ -97,7 +95,7 @@ public class MainGame extends ApplicationAdapter {
 
 			@Override
 			public void onDown() {
-				player.setDirection(new Vector2(0, -1));
+				player.setDirection(new Vector2(CameraScrollSpeed, -3).nor());
 
 			}
 		}));

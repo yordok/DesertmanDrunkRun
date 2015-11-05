@@ -1,14 +1,18 @@
 package com.mygdx.desertcommander;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import org.w3c.dom.css.Rect;
 
 import java.awt.Graphics;
+
+import sun.rmi.runtime.Log;
 
 /**
  * Created by jordan on 11/4/15.
@@ -25,24 +29,29 @@ public class Player {
         PTexture = img;
         Direction = new Vector2(1,0);
         Speed = 3.0f;
-
         hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
 
     }
 
-    public void draw(SpriteBatch spritebatch){
+    public void draw(SpriteBatch spritebatch, OrthographicCamera mainCam) {
+        Gdx.app.log("MAINCAM", mainCam.position.toString());
         spritebatch.draw(PTexture, Position.x, Position.y);
+
+        if (Position.y <= 0) {
+            Position.y = 0;
+        }
+        if (Position.y + PTexture.getHeight() >= Gdx.graphics.getHeight()) {
+            Position.y = Gdx.graphics.getHeight() - PTexture.getHeight();
+        }
+       
     }
 
     public void move(){
+        //Gdx.app.log("PLAYERPOS", Position.toString());
+        //move the player in the current Direction
         Position = new Vector2(Position.x + (Direction.x * Speed), Position.y + (Direction.y * Speed));
-        if(Position.y <= 0){
-            Position.y = 0;
-        }
-        if(Position.y + PTexture.getHeight() >= Gdx.graphics.getHeight()){
-            Position.y  = Gdx.graphics.getHeight() - + PTexture.getHeight();
 
-        }
+        //set the position of the hitbox
         hitBox.setPosition(Position);
     }
     public float getSpeed(){
