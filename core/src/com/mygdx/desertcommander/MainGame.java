@@ -111,11 +111,11 @@ public class MainGame extends ApplicationAdapter{
 				// your touch up code here
 				Gdx.app.log("TouchX", x + "");
 				if(stopInput ==false) {
-					Vector3 playerVec3 =  mainCamera.project(new Vector3(player.getPosition().x, player.getPosition().y, 0.0f));
-					Gdx.app.log("XLOG", playerVec3.toString());
-
-					Vector2 direcVec = new Vector2(x - playerVec3.x, y - playerVec3.y).nor();
-					direcVec.y = direcVec.y * -1;
+					Vector3 touchVec3 =  mainCamera.unproject(new Vector3(x, y, 0.0f));
+					//Gdx.app.log("XLOG", touchVec3.toString());
+					//Gdx.app.log("PlayerX", player.getPosition().x + "");
+					Vector2 direcVec = new Vector2(player.getPosition().x - touchVec3.x, player.getPosition().y - touchVec3.y).nor();
+					direcVec = direcVec.scl(-1.0f);
 					bulletManager.addBullet(new Bullet(player.getPosition(), direcVec, AI.bulletSprite));
 				}
 				stopInput = false;
