@@ -28,13 +28,13 @@ public class Player {
         Position = new Vector2(x,y);
         PTexture = img;
         Direction = new Vector2(1,0);
-        Speed = 3.0f;
+        Speed = 2.0f;
         hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
 
     }
 
     public void draw(SpriteBatch spritebatch, OrthographicCamera mainCam) {
-        Gdx.app.log("MAINCAM", mainCam.position.toString());
+        //Gdx.app.log("MAINCAM", mainCam.position.toString());
         spritebatch.draw(PTexture, Position.x, Position.y);
 
         if (Position.y <= 0) {
@@ -43,7 +43,16 @@ public class Player {
         if (Position.y + PTexture.getHeight() >= Gdx.graphics.getHeight()) {
             Position.y = Gdx.graphics.getHeight() - PTexture.getHeight();
         }
-       
+        Vector3 playerVec3 =  mainCam.project(new Vector3(Position.x, Position.y, 0.0f));
+        if(playerVec3.x <= 0) {
+            Vector3 reproject = mainCam.unproject(new Vector3(0, Position.y, 0.0f));
+            Position.x = reproject.x;
+        }
+        if(playerVec3.x >= Gdx.graphics.getWidth()) {
+            Vector3 reproject = mainCam.unproject(new Vector3(playerVec3.x, Position.y, 0.0f));
+            Position.x = reproject.x;
+        }
+
     }
 
     public void move(){
