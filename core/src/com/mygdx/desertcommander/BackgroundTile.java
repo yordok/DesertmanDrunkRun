@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import javafx.geometry.Pos;
+
 
 /**
  * Created by jmk1637 on 11/9/2015.
@@ -15,15 +15,10 @@ public class BackgroundTile {
     private Texture PTexture;
     private int Height, Width;
 
-    public BackgroundTile(Vector2 pos,int height , int width, Texture texture){
-        Position = pos;
+    public BackgroundTile(int height , int width, Texture texture){
         PTexture = texture;
         Height = height;
         Width = width;
-    }
-
-    public void draw(SpriteBatch spriteBatch){
-        spriteBatch.draw(PTexture, Position.x,Position.y,Width,Height);
     }
 
     public void setPosition(Vector2 position) {
@@ -33,4 +28,7 @@ public class BackgroundTile {
     public Vector2 getPosition() {
         return Position;
     }
+    public Texture getPTexture(){return PTexture;}
+    public int getWidth(){return Width;}
+    public int getHeight(){return Height;}
 }

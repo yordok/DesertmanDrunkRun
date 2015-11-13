@@ -28,7 +28,7 @@ public class Player {
         Position = new Vector2(x,y);
         PTexture = img;
         Direction = new Vector2(1,0);
-        Speed = 2.0f;
+        Speed = 8.0f;
         hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
 
     }

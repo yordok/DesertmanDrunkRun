@@ -39,7 +39,7 @@ public class MainGame extends ApplicationAdapter{
 		Gdx.input.setInputProcessor(InputMult);
 		stopInput = false;
 		//managers...
-		BCKTileManager = new BackgroundTileManager(AI,80,80, 20,14);
+		BCKTileManager = new BackgroundTileManager(AI,100,100, 27,14);
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setAutoShapeType(true);
 		bulletManager = new BulletManager();
