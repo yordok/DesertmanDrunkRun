@@ -18,7 +18,7 @@ public class Bullet {
         Position = startingPos;
         Direction = direction;
         PTexture = texture;
-        Speed = 15.0f;
+        Speed = 20.0f;
 
     }
     public void update(){
@@ -26,6 +26,6 @@ public class Bullet {
     }
 
     public void draw(SpriteBatch spriteBatch){
-        spriteBatch.draw(PTexture, Position.x, Position.y);
+        spriteBatch.draw(PTexture, Position.x, Position.y, 50, 50);
     }
 }

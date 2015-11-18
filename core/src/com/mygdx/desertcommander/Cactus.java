@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 public class Cactus extends Obstacle {
 
 
-    public Cactus(Vector2 position, Texture texture){
-        super(position, true, texture);
+    public Cactus(Vector2 position, AssetInitializer AI, int TileDimen){
+        super(position, true, AI.cactusSprite, TileDimen);
     }
 
 

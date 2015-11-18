@@ -20,11 +20,10 @@ public class MainGame extends ApplicationAdapter{
 	boolean CameraIsScrolling;
 	boolean stopInput;
 	Player player;
-	Cactus c;
-	ShapeRenderer shapeRenderer;
 	AssetInitializer AI;
 	BulletManager bulletManager;
 	BackgroundTileManager BCKTileManager;
+	LevelChunkManager lvlChunkManager;
 	OrthographicCamera mainCamera;
 
 
@@ -39,16 +38,14 @@ public class MainGame extends ApplicationAdapter{
 		Gdx.input.setInputProcessor(InputMult);
 		stopInput = false;
 		//managers...
-		BCKTileManager = new BackgroundTileManager(AI,100,100, 27,14);
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setAutoShapeType(true);
+		BCKTileManager = new BackgroundTileManager(AI,150,150, 20,10);
 		bulletManager = new BulletManager();
+		lvlChunkManager = new LevelChunkManager(200, 100, AI);
 		mainCamera = new OrthographicCamera();
 		mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		CameraIsScrolling = false;
 		CameraScrollSpeed = 1.0f;
-		c = new Cactus(new Vector2(1000, 100), AI.obstacleSprite);
-		player = new Player(20.0f,0,AI.playerSprite);
+		player = new Player(20.0f,0,200,200,AI.playerSprite);
 	}
 
 	@Override
@@ -58,10 +55,10 @@ public class MainGame extends ApplicationAdapter{
 		this.update();
 		batch.setProjectionMatrix(mainCamera.combined);
 		batch.begin();
-		BCKTileManager.draw(batch, mainCamera);
+		//BCKTileManager.draw(batch, mainCamera);
+		lvlChunkManager.draw(batch);
 		player.draw(batch, mainCamera);
 		bulletManager.draw(batch);
-		c.draw(batch);
 		batch.end();
 	}
 
@@ -112,11 +109,10 @@ public class MainGame extends ApplicationAdapter{
 				Gdx.app.log("TouchX", x + "");
 				if(stopInput ==false) {
 					Vector3 touchVec3 =  mainCamera.unproject(new Vector3(x, y, 0.0f));
-					//Gdx.app.log("XLOG", touchVec3.toString());
-					//Gdx.app.log("PlayerX", player.getPosition().x + "");
 					Vector2 direcVec = new Vector2(player.getPosition().x - touchVec3.x, player.getPosition().y - touchVec3.y).nor();
 					direcVec = direcVec.scl(-1.0f);
-					bulletManager.addBullet(new Bullet(player.getPosition(), direcVec, AI.bulletSprite));
+					Vector2 bulletLoc = new Vector2(player.getPosition().x + player.Width, player.getPosition().y + player.Height/2);
+					bulletManager.addBullet(new Bullet(bulletLoc, direcVec, AI.bulletSprite));
 				}
 				stopInput = false;
 				return true; // return true to indicate the event was handled

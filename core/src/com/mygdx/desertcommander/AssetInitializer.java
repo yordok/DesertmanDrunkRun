@@ -10,8 +10,7 @@ import java.util.ArrayList;
 public class AssetInitializer {
 
     public Texture playerSprite;
-    public Texture obstacleSprite;
-    public Texture backgrounddirtSprite;
+    public Texture cactusSprite;
     public Texture bulletSprite;
 
     public Texture sandA, sandB, sandC, sandD, sandE;
@@ -21,8 +20,7 @@ public class AssetInitializer {
         //init tells whether the instance should load all the assets
         if(init){
             playerSprite = new Texture("player.png");
-            backgrounddirtSprite = new Texture("dirt.png");
-            obstacleSprite = new Texture("Cactus.png");
+            cactusSprite = new Texture("cactus.png");
             bulletSprite = new Texture("bullet.png");
 
             sandA = new Texture("sandA.png");

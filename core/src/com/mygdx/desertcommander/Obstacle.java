@@ -1,5 +1,6 @@
 package com.mygdx.desertcommander;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -16,8 +17,10 @@ public class Obstacle {
     private Rectangle hitBox;
     private Texture PTexture;
     private boolean isActive;
+    private int TileDimension;
 
-    public Obstacle(Vector2 position, boolean deadly, Texture texture){
+    public Obstacle(Vector2 position, boolean deadly, Texture texture, int tileDimension){
+        TileDimension = tileDimension;
         isActive = true;
         Position = position;
         isDeadly = deadly;
@@ -37,7 +40,7 @@ public class Obstacle {
     }
 
     public void draw(SpriteBatch spriteBatch){
-        spriteBatch.draw(PTexture, Position.x, Position.y);
+        spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
     }
     public void setHitboxSize(float width, float height, float widthOffset, float heightOffset){
         hitBox.setWidth(width - widthOffset);

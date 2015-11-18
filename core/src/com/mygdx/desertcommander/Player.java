@@ -23,8 +23,11 @@ public class Player {
     private Texture PTexture;
     private float Speed;
     private Rectangle hitBox;
+    public int Width, Height;
 
-    public Player(float x, float y, Texture img){
+    public Player(float x, float y,int width, int height, Texture img){
+        Width = width;
+        Height = height;
         Position = new Vector2(x,y);
         PTexture = img;
         Direction = new Vector2(1,0);
