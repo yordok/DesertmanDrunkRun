@@ -40,11 +40,11 @@ public class MainGame extends ApplicationAdapter{
 		//managers...
 		BCKTileManager = new BackgroundTileManager(AI,150,150, 20,10);
 		bulletManager = new BulletManager();
-		lvlChunkManager = new LevelChunkManager(200, 100, AI);
+		lvlChunkManager = new LevelChunkManager(500, 100, AI);
 		mainCamera = new OrthographicCamera();
 		mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		CameraIsScrolling = false;
-		CameraScrollSpeed = 1.0f;
+		CameraScrollSpeed = 3.0f;
 		player = new Player(20.0f,0,200,200,AI.playerSprite);
 	}
 
@@ -55,7 +55,7 @@ public class MainGame extends ApplicationAdapter{
 		this.update();
 		batch.setProjectionMatrix(mainCamera.combined);
 		batch.begin();
-		//BCKTileManager.draw(batch, mainCamera);
+		BCKTileManager.draw(batch, mainCamera);
 		lvlChunkManager.draw(batch);
 		player.draw(batch, mainCamera);
 		bulletManager.draw(batch);
@@ -63,8 +63,11 @@ public class MainGame extends ApplicationAdapter{
 	}
 
 	public void update(){
+		int screenMaxX = (int)mainCamera.position.x + Gdx.graphics.getWidth()/2;
+		int screenMinX = (int)mainCamera.position.x - Gdx.graphics.getWidth()/2;
 		this.handleCamera();
 		bulletManager.update();
+		lvlChunkManager.update(screenMaxX, screenMinX);
 		player.move();
 
 	}

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by jordan on 11/16/15.
@@ -16,10 +17,11 @@ public class LevelChunkManager {
     int tileDimension;
     int levelTileLength;
     AssetInitializer AI;
+    Random rnd;
     public LevelChunkManager(int beginSpace, int bufferSpace, AssetInitializer assetI){
+        rnd = new Random();
         //set tile height and width of each tile
         tileDimension = Gdx.graphics.getHeight() / 8;
-        Gdx.app.log("TILE DIMENSION" ,tileDimension + "");
         levelTileLength = 0;
         //asset initializer
         AI = assetI;
@@ -31,21 +33,42 @@ public class LevelChunkManager {
         addChunk(0);
         levelTileLength = BeginSpace;
     }
-    public void update(){
+    public void update(int ScreenMaxX, int ScreenMinX){
+
+        LevelChunk LastChunk = MasterChunkList.get(MasterChunkList.size() -1);
+        LevelChunk FirstChunk = MasterChunkList.get(0);
+        if((FirstChunk.initialX + FirstChunk.LengthinPixels) < (ScreenMinX)){
+            MasterChunkList.remove(FirstChunk);
+            Gdx.app.log("SIZE OF MASTER CHUNLIST:", MasterChunkList.size() +"");
+        }
+        if((LastChunk.initialX + LastChunk.LengthinPixels) < (ScreenMaxX)){
+            addRandomChunkToEnd(ScreenMaxX);
+        }
 
     }
     public void draw(SpriteBatch spriteBatch){
-
+    //draw everything in the chunks
         for(int i =0; i < MasterChunkList.size(); i++){
             ArrayList<Obstacle> obstaclelist = MasterChunkList.get(i).ObstacleMasterList;
-
             for(int j =0; j < obstaclelist.size(); j++){
                 obstaclelist.get(j).draw(spriteBatch);
             }
         }
     }
+
+    public void addChunkToEnd(int type, int ScreenMaxX){
+        LevelChunk LC = new LevelChunk(type, ScreenMaxX, tileDimension, AI);
+        MasterChunkList.add(LC);
+
+    }
     public void addChunk(int type){
         LevelChunk LC = new LevelChunk(type, levelTileLength + BufferSpace, tileDimension, AI);
+        levelTileLength += BufferSpace + LC.LengthinPixels;
         MasterChunkList.add(LC);
+    }
+
+    public void addRandomChunkToEnd(int ScreenMaxX){
+        int type = rnd.nextInt(3);
+        addChunkToEnd(type, ScreenMaxX);
     }
 }
