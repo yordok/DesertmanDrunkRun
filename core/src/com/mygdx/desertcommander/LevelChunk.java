@@ -35,23 +35,23 @@ public class LevelChunk {
             LengthinPixels = LengthinTiles * TileDimension;
             LevelChunkShell = new int[LengthinTiles][NumofRows];
             LevelChunkShell[0][0] = 1;
-            LevelChunkShell[1][0] = 1;
+            LevelChunkShell[1][0] = 2;
             LevelChunkShell[1][1] = 1;
             LevelChunkShell[3][3] = 1;
-            LevelChunkShell[3][4] = 1;
+            LevelChunkShell[3][4] = 2;
             LevelChunkShell[4][4] = 1;
-            LevelChunkShell[4][5] = 1;
-            LevelChunkShell[5][5] = 1;
+            LevelChunkShell[4][5] = 2;
+            LevelChunkShell[5][5] = 2;
         }
         if(type == 1){
             LengthinTiles = 5;
             LengthinPixels = LengthinTiles * TileDimension;
             LevelChunkShell = new int[LengthinTiles][NumofRows];
             LevelChunkShell[4][0] = 1;
-            LevelChunkShell[4][1] = 1;
+            LevelChunkShell[4][1] = 2;
             LevelChunkShell[3][2] = 1;
-            LevelChunkShell[0][3] = 1;
-            LevelChunkShell[2][4] = 1;
+            LevelChunkShell[0][3] = 2;
+            LevelChunkShell[2][4] = 2;
             LevelChunkShell[0][5] = 1;
             LevelChunkShell[1][5] = 1;
             LevelChunkShell[2][5] = 1;
@@ -62,10 +62,10 @@ public class LevelChunk {
             LengthinTiles = 5;
             LengthinPixels = LengthinTiles * TileDimension;
             LevelChunkShell = new int[LengthinTiles][NumofRows];
-            LevelChunkShell[0][1] = 1;
+            LevelChunkShell[0][1] = 2;
             LevelChunkShell[1][1] = 1;
             LevelChunkShell[1][2] = 1;
-            LevelChunkShell[4][3] = 1;
+            LevelChunkShell[4][3] = 2;
             LevelChunkShell[0][4] = 1;
             LevelChunkShell[3][5] = 1;
             LevelChunkShell[2][6] = 1;
@@ -76,7 +76,9 @@ public class LevelChunk {
 
         generateChunkObject(LevelChunkShell);
     }
-
+    //this creates a list of objects and where to draw them based on the level chunk
+    //1 = cactus
+    //2 = barrel
     public void generateChunkObject(int[][] shell){
         for(int x = 0; x < LengthinTiles; x++ ){
             for(int y = 0; y < NumofRows; y++){
@@ -85,6 +87,12 @@ public class LevelChunk {
                     Gdx.app.log("Positions: ", pos + "");
                     Cactus c = new Cactus(pos, AI, TileDimension);
                     ObstacleMasterList.add(c);
+                }
+                if(shell[x][y] == 2){
+                    Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
+                    Gdx.app.log("Positions: ", pos + "");
+                    Barrel b = new Barrel(pos, AI, (int)(TileDimension * 0.8f));
+                    ObstacleMasterList.add(b);
                 }
 
 

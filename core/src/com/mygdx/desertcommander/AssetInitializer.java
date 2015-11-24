@@ -16,6 +16,8 @@ public class AssetInitializer {
     public Texture bulletSprite;
     public Texture barrelSprite;
 
+    public Texture startbuttonSprite;
+
     public Texture sandA, sandB, sandC, sandD, sandE;
 
     public AssetInitializer(boolean init){
@@ -26,6 +28,8 @@ public class AssetInitializer {
             cactusSprite = new Texture("cactus.png");
             bulletSprite = new Texture("bullet.png");
             barrelSprite = new Texture("Barrel.png");
+
+            startbuttonSprite = new Texture("startbutton.png");
 
             sandA = new Texture("sandA.png");
             sandB = new Texture("sandB.png");

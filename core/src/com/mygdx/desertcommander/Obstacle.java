@@ -26,7 +26,7 @@ public class Obstacle {
         isDeadly = deadly;
         PTexture = texture;
         hitBox = new Rectangle();
-        setHitboxSize(PTexture.getWidth(), PTexture.getHeight(),0,0);
+        setHitboxSize((int)(PTexture.getWidth() * 0.75f), (int)(PTexture.getHeight() * 0.75f),0,0);
     }
 
     public boolean isCollided(Rectangle otherRect){

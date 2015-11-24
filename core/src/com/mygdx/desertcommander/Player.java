@@ -12,7 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import org.w3c.dom.css.Rect;
 
-import java.awt.Graphics;
+
+import java.util.ArrayList;
 
 import sun.rmi.runtime.Log;
 
@@ -22,12 +23,13 @@ import sun.rmi.runtime.Log;
 public class Player {
     private Vector2 Position;
     private Vector2 Direction;
-
-    private float Speed;
-
-    public int Width, Height;
     private Animation PlayerAnimimation;
     private float AnimStateTime;
+    private float Speed;
+
+    public Rectangle HitBox;
+    public int Width, Height;
+
 
     public Player(float x, float y,int width, int height, Texture img){
         Width = (int)((width/8) * 0.75f);
@@ -39,6 +41,7 @@ public class Player {
         textureArray[1] =  new TextureRegion(img, 16, 0, 16, 16);
         PlayerAnimimation = new Animation(1.0f,textureArray);
         PlayerAnimimation.setPlayMode(Animation.PlayMode.LOOP);
+        HitBox = new Rectangle(x,y,Width,Height);
         Direction = new Vector2(1,0);
         Speed = 8.0f;
 
@@ -66,6 +69,16 @@ public class Player {
             Position.x = reproject.x;
         }
 
+    }
+    public void checkCollision(ArrayList<LevelChunk> chunklist){
+        for(int i = 0; i< chunklist.size(); i++){
+            ArrayList<Obstacle> ObjList = chunklist.get(i).ObstacleMasterList;
+            for(int j = 0; j < ObjList.size(); j++){
+                if(this.HitBox.overlaps(ObjList.get(j).getHitBox())){
+                    Gdx.app.log("Collision Detected","TRUE");
+                }
+            }
+        }
     }
 
     public void move(){
