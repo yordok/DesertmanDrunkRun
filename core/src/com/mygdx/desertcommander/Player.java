@@ -3,7 +3,9 @@ package com.mygdx.desertcommander;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -24,27 +26,32 @@ public class Player {
     private float Speed;
     private Rectangle hitBox;
     public int Width, Height;
+    private Animation Playeranim;
 
     public Player(float x, float y,int width, int height, Texture img){
         Width = width;
         Height = height;
         Position = new Vector2(x,y);
-        PTexture = img;
+        TextureRegion[] textureArray = new TextureRegion[2];
+        textureArray[0] =  new TextureRegion(img, 0, 0, 16, 16);
+        textureArray[1] =  new TextureRegion(img, 16, 0, 16, 16);
+        Playeranim = new Animation(1.0f,textureArray);
+        Playeranim.setPlayMode(Animation.PlayMode.LOOP);
         Direction = new Vector2(1,0);
         Speed = 8.0f;
-        hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
+        //hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
 
     }
 
     public void draw(SpriteBatch spritebatch, OrthographicCamera mainCam) {
         //Gdx.app.log("MAINCAM", mainCam.position.toString());
-        spritebatch.draw(PTexture, Position.x, Position.y);
+        spritebatch.draw(Playeranim.getKeyFrame(1.0f, true), Position.x, Position.y);
 
         if (Position.y <= 0) {
             Position.y = 0;
         }
         if (Position.y + PTexture.getHeight() >= Gdx.graphics.getHeight()) {
-            Position.y = Gdx.graphics.getHeight() - PTexture.getHeight();
+            Position.y = Gdx.graphics.getHeight() - Height;
         }
         Vector3 playerVec3 =  mainCam.project(new Vector3(Position.x, Position.y, 0.0f));
         if(playerVec3.x <= 0) {
@@ -64,7 +71,7 @@ public class Player {
         Position = new Vector2(Position.x + (Direction.x * Speed), Position.y + (Direction.y * Speed));
 
         //set the position of the hitbox
-        hitBox.setPosition(Position);
+        //hitBox.setPosition(Position);
     }
     public float getSpeed(){
         return Speed;
