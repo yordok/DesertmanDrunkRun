@@ -22,35 +22,38 @@ import sun.rmi.runtime.Log;
 public class Player {
     private Vector2 Position;
     private Vector2 Direction;
-    private Texture PTexture;
+
     private float Speed;
-    private Rectangle hitBox;
+
     public int Width, Height;
-    private Animation Playeranim;
+    private Animation PlayerAnimimation;
+    private float AnimStateTime;
 
     public Player(float x, float y,int width, int height, Texture img){
-        Width = width;
-        Height = height;
+        Width = (int)((width/8) * 0.75f);
+        Height = (int)((height/8) * 0.75f);
         Position = new Vector2(x,y);
+        AnimStateTime = 0.0f;
         TextureRegion[] textureArray = new TextureRegion[2];
         textureArray[0] =  new TextureRegion(img, 0, 0, 16, 16);
         textureArray[1] =  new TextureRegion(img, 16, 0, 16, 16);
-        Playeranim = new Animation(1.0f,textureArray);
-        Playeranim.setPlayMode(Animation.PlayMode.LOOP);
+        PlayerAnimimation = new Animation(1.0f,textureArray);
+        PlayerAnimimation.setPlayMode(Animation.PlayMode.LOOP);
         Direction = new Vector2(1,0);
         Speed = 8.0f;
-        //hitBox = new Rectangle(Position.x, Position.y, PTexture.getWidth(), PTexture.getHeight());
 
     }
 
     public void draw(SpriteBatch spritebatch, OrthographicCamera mainCam) {
         //Gdx.app.log("MAINCAM", mainCam.position.toString());
-        spritebatch.draw(Playeranim.getKeyFrame(1.0f, true), Position.x, Position.y);
+        AnimStateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame = PlayerAnimimation.getKeyFrame(AnimStateTime, true);
+        spritebatch.draw(currentFrame, Position.x, Position.y, Width,Height);
 
         if (Position.y <= 0) {
             Position.y = 0;
         }
-        if (Position.y + PTexture.getHeight() >= Gdx.graphics.getHeight()) {
+        if (Position.y + currentFrame.getRegionHeight() >= Gdx.graphics.getHeight()) {
             Position.y = Gdx.graphics.getHeight() - Height;
         }
         Vector3 playerVec3 =  mainCam.project(new Vector3(Position.x, Position.y, 0.0f));
@@ -89,9 +92,6 @@ public class Player {
     }
     public void setDirection(Vector2 newDirect){
         Direction = newDirect;
-    }
-    public Texture getTexture(){
-        return PTexture;
     }
 
 }

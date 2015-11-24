@@ -45,7 +45,7 @@ public class MainGame extends ApplicationAdapter{
 		mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		CameraIsScrolling = false;
 		CameraScrollSpeed = 3.0f;
-		player = new Player(20.0f,0,200,200,AI.playerSprite);
+		player = new Player(20.0f,0,Gdx.graphics.getHeight(),Gdx.graphics.getHeight(),AI.playerSprite);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.mygdx.desertcommander;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,7 @@ public class AssetInitializer {
     public Texture playerSprite;
     public Texture cactusSprite;
     public Texture bulletSprite;
+    public Texture barrelSprite;
 
     public Texture sandA, sandB, sandC, sandD, sandE;
 
@@ -19,9 +22,10 @@ public class AssetInitializer {
 
         //init tells whether the instance should load all the assets
         if(init){
-            playerSprite = new Texture("player.png");
+            playerSprite = new Texture("playerSheet.png");
             cactusSprite = new Texture("cactus.png");
             bulletSprite = new Texture("bullet.png");
+            barrelSprite = new Texture("Barrel.png");
 
             sandA = new Texture("sandA.png");
             sandB = new Texture("sandB.png");

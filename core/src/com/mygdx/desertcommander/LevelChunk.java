@@ -47,14 +47,14 @@ public class LevelChunk {
             LengthinTiles = 5;
             LengthinPixels = LengthinTiles * TileDimension;
             LevelChunkShell = new int[LengthinTiles][NumofRows];
-            LevelChunkShell[0][0] = 1;
-            LevelChunkShell[0][1] = 1;
-            LevelChunkShell[0][2] = 1;
+            LevelChunkShell[4][0] = 1;
+            LevelChunkShell[4][1] = 1;
+            LevelChunkShell[3][2] = 1;
             LevelChunkShell[0][3] = 1;
-            LevelChunkShell[0][4] = 1;
+            LevelChunkShell[2][4] = 1;
             LevelChunkShell[0][5] = 1;
-            LevelChunkShell[0][6] = 1;
-            LevelChunkShell[0][7] = 1;
+            LevelChunkShell[1][5] = 1;
+            LevelChunkShell[2][5] = 1;
 
 
         }
