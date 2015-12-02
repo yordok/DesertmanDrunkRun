@@ -1,10 +1,8 @@
 package com.mygdx.desertcommander;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -26,25 +24,13 @@ public class Obstacle {
         isDeadly = deadly;
         PTexture = texture;
         hitBox = new Rectangle();
-        setHitboxSize((int)(PTexture.getWidth() * 0.75f), (int)(PTexture.getHeight() * 0.75f),0,0);
+        hitBox.setSize(tileDimension * 0.5f);
+        Vector2 center = new Vector2(Position.x + tileDimension/2, Position.x + tileDimension/2);
+        hitBox.setCenter(center);
     }
 
-    public boolean isCollided(Rectangle otherRect){
-
-        if(hitBox.overlaps(otherRect)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public void draw(SpriteBatch spriteBatch){
+    public void draw(SpriteBatch spriteBatch) {
         spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
-    }
-    public void setHitboxSize(float width, float height, float widthOffset, float heightOffset){
-        hitBox.setWidth(width - widthOffset);
-        hitBox.setHeight(height - heightOffset);
     }
     public boolean getActive(){
         return isActive;

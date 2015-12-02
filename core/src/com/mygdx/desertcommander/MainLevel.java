@@ -1,12 +1,10 @@
 package com.mygdx.desertcommander;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by jordan on 11/17/15.
@@ -26,10 +24,10 @@ public class MainLevel {
     BackgroundTileManager BCKTileManager;
     LevelChunkManager lvlChunkManager;
     OrthographicCamera mainCamera;
-    public boolean paused;
+    public boolean playing;
 
     public MainLevel(){
-        paused = false;
+        playing = false;
     }
 
     public void generateGame(){
@@ -51,16 +49,14 @@ public class MainLevel {
 
         this.update();
         batch.setProjectionMatrix(mainCamera.combined);
-        batch.begin();
         BCKTileManager.draw(batch, mainCamera);
         lvlChunkManager.draw(batch);
         player.draw(batch, mainCamera);
         bulletManager.draw(batch);
-        batch.end();
     }
 
     public void update(){
-        if(paused) {
+        if(playing) {
             int screenMaxX = (int) mainCamera.position.x + Gdx.graphics.getWidth() / 2;
             int screenMinX = (int) mainCamera.position.x - Gdx.graphics.getWidth() / 2;
             this.handleCamera();
@@ -81,13 +77,6 @@ public class MainLevel {
             mainCamera.update();
         }
 
-    }
-    public void pauseGame(){
-        paused = true;
-    }
-
-    public void unpauseGame(){
-        paused = false;
     }
 
 

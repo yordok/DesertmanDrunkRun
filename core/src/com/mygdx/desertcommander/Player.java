@@ -10,12 +10,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import org.w3c.dom.css.Rect;
-
 
 import java.util.ArrayList;
 
-import sun.rmi.runtime.Log;
 
 /**
  * Created by jordan on 11/4/15.
@@ -39,7 +36,7 @@ public class Player {
         TextureRegion[] textureArray = new TextureRegion[2];
         textureArray[0] =  new TextureRegion(img, 0, 0, 16, 16);
         textureArray[1] =  new TextureRegion(img, 16, 0, 16, 16);
-        PlayerAnimimation = new Animation(1.0f,textureArray);
+        PlayerAnimimation = new Animation(0.5f,textureArray);
         PlayerAnimimation.setPlayMode(Animation.PlayMode.LOOP);
         HitBox = new Rectangle(x,y,Width,Height);
         Direction = new Vector2(1,0);
@@ -82,12 +79,11 @@ public class Player {
     }
 
     public void move(){
-        //Gdx.app.log("PLAYERPOS", Position.toString());
         //move the player in the current Direction
         Position = new Vector2(Position.x + (Direction.x * Speed), Position.y + (Direction.y * Speed));
-
-        //set the position of the hitbox
-        //hitBox.setPosition(Position);
+        //set the center of the hitbox
+        Vector2 center = new Vector2(Position.x + Width/2, Position.y + Height/2);
+        HitBox.setCenter(center);
     }
     public float getSpeed(){
         return Speed;
