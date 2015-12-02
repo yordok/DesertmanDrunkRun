@@ -23,14 +23,12 @@ public class Obstacle {
         Position = position;
         isDeadly = deadly;
         PTexture = texture;
-        hitBox = new Rectangle();
-        hitBox.setSize(tileDimension * 0.5f);
-        Vector2 center = new Vector2(Position.x + tileDimension/2, Position.x + tileDimension/2);
-        hitBox.setCenter(center);
+        hitBox = new Rectangle(position.x, position.y, tileDimension/2, tileDimension/2);
     }
 
     public void draw(SpriteBatch spriteBatch) {
         spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
+        hitBox.setPosition(Position.x + TileDimension/4, Position.y + TileDimension/4);
     }
     public boolean getActive(){
         return isActive;

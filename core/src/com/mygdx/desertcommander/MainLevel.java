@@ -2,8 +2,10 @@ package com.mygdx.desertcommander;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -18,12 +20,16 @@ change between the game and the menu
 public class MainLevel {
     float CameraScrollSpeed;
     boolean CameraIsScrolling;
-    Player player;
+    public Player player;
     AssetInitializer AI;
     BulletManager bulletManager;
     BackgroundTileManager BCKTileManager;
-    LevelChunkManager lvlChunkManager;
+    public LevelChunkManager lvlChunkManager;
     OrthographicCamera mainCamera;
+
+    //for debug use
+    ShapeRenderer shapeRenderer;
+
     public boolean playing;
 
     public MainLevel(){
@@ -42,6 +48,7 @@ public class MainLevel {
         mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         CameraIsScrolling = false;
         CameraScrollSpeed = 3.0f;
+        shapeRenderer = new ShapeRenderer();
         player = new Player(20.0f,0,Gdx.graphics.getHeight(),Gdx.graphics.getHeight(),AI.playerSprite);
     }
 
@@ -49,6 +56,7 @@ public class MainLevel {
 
         this.update();
         batch.setProjectionMatrix(mainCamera.combined);
+
         BCKTileManager.draw(batch, mainCamera);
         lvlChunkManager.draw(batch);
         player.draw(batch, mainCamera);
@@ -69,7 +77,6 @@ public class MainLevel {
 
     public void handleCamera(){
         //this needs to be fixed, needs to be 300 in the camera space, not the world space
-
         CameraIsScrolling = true;
 
         if(CameraIsScrolling){
@@ -78,7 +85,6 @@ public class MainLevel {
         }
 
     }
-
 
     public InputProcessor getSwipeInput(){
 

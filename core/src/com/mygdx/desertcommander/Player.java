@@ -38,7 +38,8 @@ public class Player {
         textureArray[1] =  new TextureRegion(img, 16, 0, 16, 16);
         PlayerAnimimation = new Animation(0.5f,textureArray);
         PlayerAnimimation.setPlayMode(Animation.PlayMode.LOOP);
-        HitBox = new Rectangle(x,y,Width,Height);
+        HitBox = new Rectangle();
+        HitBox.set(x, y, Width, Height);
         Direction = new Vector2(1,0);
         Speed = 8.0f;
 
@@ -49,6 +50,8 @@ public class Player {
         AnimStateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = PlayerAnimimation.getKeyFrame(AnimStateTime, true);
         spritebatch.draw(currentFrame, Position.x, Position.y, Width,Height);
+        HitBox.set(Position.x + Width/4, Position.y + Height/4, Width/2, Height/2);
+
 
         if (Position.y <= 0) {
             Position.y = 0;
@@ -71,6 +74,7 @@ public class Player {
         for(int i = 0; i< chunklist.size(); i++){
             ArrayList<Obstacle> ObjList = chunklist.get(i).ObstacleMasterList;
             for(int j = 0; j < ObjList.size(); j++){
+                Gdx.app.log("Collision Detecting","");
                 if(this.HitBox.overlaps(ObjList.get(j).getHitBox())){
                     Gdx.app.log("Collision Detected","TRUE");
                 }
@@ -78,12 +82,12 @@ public class Player {
         }
     }
 
-    public void move(){
+    public void move() {
+        //Gdx.app.log("HitBox Position" +HitBox.getX() + " " + HitBox.getY(), "Player Position" + Position.x + " " + Position.y);
         //move the player in the current Direction
         Position = new Vector2(Position.x + (Direction.x * Speed), Position.y + (Direction.y * Speed));
-        //set the center of the hitbox
-        Vector2 center = new Vector2(Position.x + Width/2, Position.y + Height/2);
-        HitBox.setCenter(center);
+
+
     }
     public float getSpeed(){
         return Speed;

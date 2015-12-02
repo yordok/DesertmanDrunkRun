@@ -30,7 +30,7 @@ public class LevelChunkManager {
         //bufferspace is the space between each chunk
         BufferSpace = bufferSpace;
         MasterChunkList = new ArrayList<LevelChunk>();
-        addChunk(0);
+        addChunk(-1);
         levelTileLength = BeginSpace;
     }
     public void update(int ScreenMaxX, int ScreenMinX){
