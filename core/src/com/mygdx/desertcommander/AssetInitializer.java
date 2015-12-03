@@ -15,6 +15,7 @@ public class AssetInitializer {
     public Texture cactusSprite;
     public Texture bulletSprite;
     public Texture barrelSprite;
+    public Texture chickenSprite;
 
     public Texture startbuttonSprite;
 
@@ -28,6 +29,7 @@ public class AssetInitializer {
             cactusSprite = new Texture("cactus.png");
             bulletSprite = new Texture("bullet.png");
             barrelSprite = new Texture("Barrel.png");
+            chickenSprite = new Texture("chickenleg.png");
 
             startbuttonSprite = new Texture("startbutton.png");
 

@@ -13,6 +13,15 @@ public class Cactus extends Obstacle {
         super(position, true, AI.cactusSprite, TileDimen);
     }
 
+    public void resolveCollsion(){
+        if(super.getActive()){
+
+        }
+        else{
+
+        }
+    }
+
 
 
 

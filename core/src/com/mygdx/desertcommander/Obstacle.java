@@ -27,9 +27,13 @@ public class Obstacle {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
-        hitBox.setPosition(Position.x + TileDimension/4, Position.y + TileDimension/4);
+        if(isActive) {
+            spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
+            hitBox.setPosition(Position.x + TileDimension / 4, Position.y + TileDimension / 4);
+        }
     }
+
+
     public boolean getActive(){
         return isActive;
     }

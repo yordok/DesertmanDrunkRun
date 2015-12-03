@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by jordan on 11/16/15.
@@ -19,6 +20,7 @@ public class LevelChunk {
     public int TileDimension;
 
     private AssetInitializer AI;
+    private Random rnd;
 
     public LevelChunk(int type, int initX, int tileDimen, AssetInitializer assetI){
         ObstacleMasterList = new ArrayList<Obstacle>();
@@ -26,6 +28,7 @@ public class LevelChunk {
         NumofRows = 8;
         initialX = initX;
         AI = assetI;
+        rnd = new Random();
         this.generateChunkShell(type);
     }
 
@@ -80,6 +83,7 @@ public class LevelChunk {
     //1 = cactus
     //2 = barrel
     public void generateChunkObject(int[][] shell){
+        int Chikencount = 0;
         for(int x = 0; x < LengthinTiles; x++ ){
             for(int y = 0; y < NumofRows; y++){
                 if(shell[x][y] == 1){
@@ -93,6 +97,17 @@ public class LevelChunk {
                     Gdx.app.log("Positions: ", pos + "");
                     Barrel b = new Barrel(pos, AI, (int)(TileDimension * 0.8f));
                     ObstacleMasterList.add(b);
+                }
+                if(rnd.nextInt(100)< 10){
+                    if(shell[x][y] == 0){
+                        if(Chikencount < LengthinTiles-1) {
+                            Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
+                            Gdx.app.log("Positions: ", pos + "");
+                            ChickenLeg ch = new ChickenLeg(pos, AI, (int) (TileDimension * 0.8f));
+                            ObstacleMasterList.add(ch);
+                            Chikencount++;
+                        }
+                    }
                 }
 
 

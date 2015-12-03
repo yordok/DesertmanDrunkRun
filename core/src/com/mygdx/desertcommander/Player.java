@@ -70,17 +70,28 @@ public class Player {
         }
 
     }
+    /*
     public void checkCollision(ArrayList<LevelChunk> chunklist){
         for(int i = 0; i< chunklist.size(); i++){
             ArrayList<Obstacle> ObjList = chunklist.get(i).ObstacleMasterList;
             for(int j = 0; j < ObjList.size(); j++){
-                Gdx.app.log("Collision Detecting","");
                 if(this.HitBox.overlaps(ObjList.get(j).getHitBox())){
-                    Gdx.app.log("Collision Detected","TRUE");
+                    Obstacle obs = ObjList.get(j);
+                    if(obs instanceof Cactus){
+                        Cactus c = (Cactus)obs;
+                        c.resolveCollsion();
+                        Gdx.app.log("Collision Detected","CACTUS");
+                    }
+                    if(obs instanceof Barrel){
+                        Barrel b = (Barrel)obs;
+
+                        Gdx.app.log("Collision Detected","BARREL");
+                    }
                 }
             }
         }
     }
+    */
 
     public void move() {
         //Gdx.app.log("HitBox Position" +HitBox.getX() + " " + HitBox.getY(), "Player Position" + Position.x + " " + Position.y);

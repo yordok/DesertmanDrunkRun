@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 /**
  * Created by jordan on 11/17/15.
  */
@@ -65,12 +67,13 @@ public class MainLevel {
 
     public void update(){
         if(playing) {
+            this.increaseSpeed();
             int screenMaxX = (int) mainCamera.position.x + Gdx.graphics.getWidth() / 2;
             int screenMinX = (int) mainCamera.position.x - Gdx.graphics.getWidth() / 2;
             this.handleCamera();
             bulletManager.update();
             lvlChunkManager.update(screenMaxX, screenMinX);
-            player.checkCollision(lvlChunkManager.MasterChunkList);
+            checkCollision(lvlChunkManager.MasterChunkList);
             player.move();
         }
     }
@@ -84,6 +87,39 @@ public class MainLevel {
             mainCamera.update();
         }
 
+    }
+
+    public void checkCollision(ArrayList<LevelChunk> chunklist){
+        for(int i = 0; i< chunklist.size(); i++){
+            ArrayList<Obstacle> ObjList = chunklist.get(i).ObstacleMasterList;
+            for(int j = 0; j < ObjList.size(); j++){
+                if(player.HitBox.overlaps(ObjList.get(j).getHitBox())){
+                    Obstacle obs = ObjList.get(j);
+                    if(obs instanceof Cactus){
+                        Cactus c = (Cactus)obs;
+                        c.resolveCollsion();
+                        Gdx.app.log("Collision Detected","CACTUS");
+                    }
+                    if(obs instanceof Barrel){
+                        Barrel b = (Barrel)obs;
+
+                        Gdx.app.log("Collision Detected","BARREL");
+                    }
+                    if(obs instanceof ChickenLeg){
+                        ChickenLeg ch = (ChickenLeg)obs;
+                        ch.resolveCollsion();
+                        ObjList.remove(ch);
+                        Gdx.app.log("Collision Detected","BARREL");
+                    }
+                }
+            }
+        }
+    }
+
+    public void increaseSpeed(){
+        //Gdx.app.log("DELTA", "" + Gdx.graphics.getDeltaTime());
+        CameraScrollSpeed += 0.0005f;
+        player.setSpeed(player.getSpeed() + 0.0005f);
     }
 
     public InputProcessor getSwipeInput(){
