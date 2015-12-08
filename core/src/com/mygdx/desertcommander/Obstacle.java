@@ -16,20 +16,25 @@ public class Obstacle {
     private Texture PTexture;
     private boolean isActive;
     private int TileDimension;
+    private float HitBoxOffset;
+    private float HitBoxScale;
 
-    public Obstacle(Vector2 position, boolean deadly, Texture texture, int tileDimension){
+    public Obstacle(Vector2 position, boolean deadly, Texture texture, int tileDimension, float HBOffset, float HBScale){
         TileDimension = tileDimension;
         isActive = true;
         Position = position;
         isDeadly = deadly;
         PTexture = texture;
-        hitBox = new Rectangle(position.x, position.y, tileDimension/2, tileDimension/2);
+        HitBoxScale = HBScale;
+        HitBoxOffset = HBOffset;
+
+        hitBox = new Rectangle(position.x, position.y, tileDimension * HitBoxScale, tileDimension * HitBoxScale);
     }
 
     public void draw(SpriteBatch spriteBatch) {
         if(isActive) {
             spriteBatch.draw(PTexture, Position.x, Position.y, TileDimension, TileDimension);
-            hitBox.setPosition(Position.x + TileDimension / 4, Position.y + TileDimension / 4);
+            hitBox.setPosition(Position.x +(HitBoxOffset * TileDimension), Position.y + (HitBoxOffset * TileDimension));
         }
     }
 

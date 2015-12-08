@@ -2,7 +2,6 @@ package com.mygdx.desertcommander;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -27,7 +26,13 @@ public class MainLevel {
     BulletManager bulletManager;
     BackgroundTileManager BCKTileManager;
     public LevelChunkManager lvlChunkManager;
+    InGameUI HUD;
     OrthographicCamera mainCamera;
+    boolean hasSwiped;
+    int ScrnWidth, ScrnHeight;
+    int WaterValue;
+    float WaterDepletionRate;
+    float fakeDistance;
 
     //for debug use
     ShapeRenderer shapeRenderer;
@@ -38,8 +43,11 @@ public class MainLevel {
         playing = false;
     }
 
-    public void generateGame(){
-        AI = new AssetInitializer(true);
+    public void generateGame(AssetInitializer ai){
+        hasSwiped = false;
+        ScrnWidth = Gdx.graphics.getWidth();
+        ScrnHeight = Gdx.graphics.getHeight();
+        AI = ai;
         //sets and creates the input
         Gdx.input.setInputProcessor(this.getSwipeInput());
         //managers...
@@ -47,33 +55,41 @@ public class MainLevel {
         bulletManager = new BulletManager();
         lvlChunkManager = new LevelChunkManager(500, 100, AI);
         mainCamera = new OrthographicCamera();
-        mainCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        HUD = new InGameUI(AI.redCrossSprite, AI.blueBarSprite, AI.jugSprite);
+        mainCamera.setToOrtho(false, ScrnWidth, ScrnHeight);
         CameraIsScrolling = false;
         CameraScrollSpeed = 3.0f;
+        WaterValue = 5;
+        fakeDistance = 0;
+        WaterDepletionRate = 0.05f;
         shapeRenderer = new ShapeRenderer();
-        player = new Player(20.0f,0,Gdx.graphics.getHeight(),Gdx.graphics.getHeight(),AI.playerSprite);
+        player = new Player(20.0f,0,ScrnHeight,ScrnHeight,AI.playerSprite);
     }
 
     public void draw(SpriteBatch batch){
 
         this.update();
         batch.setProjectionMatrix(mainCamera.combined);
-
         BCKTileManager.draw(batch, mainCamera);
         lvlChunkManager.draw(batch);
         player.draw(batch, mainCamera);
+
+
         bulletManager.draw(batch);
+        HUD.draw(batch, player.health, (int)mainCamera.position.x - ScrnWidth/2, player.waterLevel, fakeDistance);
     }
 
     public void update(){
         if(playing) {
             this.increaseSpeed();
-            int screenMaxX = (int) mainCamera.position.x + Gdx.graphics.getWidth() / 2;
-            int screenMinX = (int) mainCamera.position.x - Gdx.graphics.getWidth() / 2;
+            int screenMaxX = (int) mainCamera.position.x + ScrnWidth / 2;
+            int screenMinX = (int) mainCamera.position.x - ScrnWidth / 2;
             this.handleCamera();
+            player.update(WaterDepletionRate);
             bulletManager.update();
             lvlChunkManager.update(screenMaxX, screenMinX);
             checkCollision(lvlChunkManager.MasterChunkList);
+            fakeDistance += Gdx.graphics.getDeltaTime();
             player.move();
         }
     }
@@ -96,20 +112,25 @@ public class MainLevel {
                 if(player.HitBox.overlaps(ObjList.get(j).getHitBox())){
                     Obstacle obs = ObjList.get(j);
                     if(obs instanceof Cactus){
-                        Cactus c = (Cactus)obs;
-                        c.resolveCollsion();
-                        Gdx.app.log("Collision Detected","CACTUS");
+                        if(player.isInvulnerable == false) {
+                            player.health--;
+                            Gdx.app.log("Collision Detected", "CACTUS");
+                            player.isInvulnerable = true;
+                        }
                     }
                     if(obs instanceof Barrel){
-                        Barrel b = (Barrel)obs;
+                        if(player.isSlowed == false){
+                            player.isSlowed = true;
+                            player.setSpeed(player.getSpeed() - 3.0f);
+                            Gdx.app.log("Collision Detected","BARREL");
+                        }
 
-                        Gdx.app.log("Collision Detected","BARREL");
                     }
-                    if(obs instanceof ChickenLeg){
-                        ChickenLeg ch = (ChickenLeg)obs;
-                        ch.resolveCollsion();
+                    if(obs instanceof WaterJug){
+                        WaterJug ch = (WaterJug)obs;
                         ObjList.remove(ch);
-                        Gdx.app.log("Collision Detected","BARREL");
+                        player.waterLevel += WaterValue;
+                        Gdx.app.log("Collision Detected","PICKUP");
                     }
                 }
             }
@@ -129,24 +150,48 @@ public class MainLevel {
             @Override
             public void onUp() {
 
-                player.setDirection(new Vector2(0, 1));
+                if(player.getDirection().y == 1){
+                    player.setDirection(new Vector2(0, 1.5f));
+                }
+                else{
+                    player.setDirection(new Vector2(0, 1));
+
+                }
             }
 
             @Override
             public void onRight() {
-                player.setDirection(new Vector2(1, 0));
+                if(player.getDirection().x == 1){
+                    player.setDirection(new Vector2(1.5f, 0));
+                }
+                else{
+                    player.setDirection(new Vector2(1, 0));
+
+                }
 
             }
 
             @Override
             public void onLeft() {
-                player.setDirection(new Vector2(-1, 0));
+                if(player.getDirection().x == -1){
+                    player.setDirection(new Vector2(-1.5f, 0));
+                }
+                else{
+                    player.setDirection(new Vector2(-1, 0));
+
+                }
 
             }
 
             @Override
             public void onDown() {
-                player.setDirection(new Vector2(0, -1));
+                if(player.getDirection().y == -1){
+                    player.setDirection(new Vector2(0, -1.5f));
+                }
+                else{
+                    player.setDirection(new Vector2(0, -1));
+
+                }
 
             }
 

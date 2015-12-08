@@ -103,7 +103,7 @@ public class LevelChunk {
                         if(Chikencount < LengthinTiles-1) {
                             Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
                             Gdx.app.log("Positions: ", pos + "");
-                            ChickenLeg ch = new ChickenLeg(pos, AI, (int) (TileDimension * 0.8f));
+                            WaterJug ch = new WaterJug(pos, AI, (int) (TileDimension * 0.8f));
                             ObstacleMasterList.add(ch);
                             Chikencount++;
                         }

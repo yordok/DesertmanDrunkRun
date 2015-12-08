@@ -16,7 +16,9 @@ public class AssetInitializer {
     public Texture bulletSprite;
     public Texture barrelSprite;
     public Texture chickenSprite;
-
+    public Texture jugSprite;
+    public Texture redCrossSprite;
+    public Texture blueBarSprite;
     public Texture startbuttonSprite;
 
     public Texture sandA, sandB, sandC, sandD, sandE;
@@ -29,7 +31,10 @@ public class AssetInitializer {
             cactusSprite = new Texture("cactus.png");
             bulletSprite = new Texture("bullet.png");
             barrelSprite = new Texture("Barrel.png");
+            jugSprite = new Texture("waterjug.png");
             chickenSprite = new Texture("chickenleg.png");
+            redCrossSprite = new Texture("RedCross.png");
+            blueBarSprite = new Texture("bluebar.png");
 
             startbuttonSprite = new Texture("startbutton.png");
 

@@ -12,7 +12,7 @@ public class Turret extends Obstacle {
     public float FireTimeOffsets;
 
     public Turret(Vector2 position, AssetInitializer AI, int TileDimen, BulletManager bulletManager){
-        super(position, true, AI.cactusSprite, TileDimen);
+        super(position, true, AI.cactusSprite, TileDimen, 0.25f, 0.5f);
         FireTimeOffsets = 5.0f;
         StateTime = 0.0f;
     }

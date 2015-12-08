@@ -18,6 +18,7 @@ public class MainGame extends ApplicationAdapter{
 	MainLevel MAINLEVEL;
 	MainMenuScreen MenuScreen;
 	ShapeRenderer shapeRenderer;
+	AssetInitializer AI;
 
 	@Override
 	public void create () {
@@ -25,6 +26,7 @@ public class MainGame extends ApplicationAdapter{
 		GameStarted = false;
 		shapeRenderer = new ShapeRenderer();
 		batch = new SpriteBatch();
+		AI = new AssetInitializer(true);
 		MenuScreen = new MainMenuScreen();
 	}
 
@@ -89,7 +91,7 @@ public class MainGame extends ApplicationAdapter{
 					if(MenuScreen.startButton.HitBox.contains(new Vector2(x,actualY))){
 						Gdx.app.log("BUTTON PRESSED","");
 						MAINLEVEL = new MainLevel();
-						MAINLEVEL.generateGame();
+						MAINLEVEL.generateGame(AI);
 						GameStarted = true;
 						MAINLEVEL.playing = true;
 
