@@ -1,6 +1,7 @@
 package com.mygdx.desertcommander;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -18,9 +19,7 @@ public class MainMenuScreen {
     }
 
     public void draw(SpriteBatch spriteBatch){
-        if(enabled){
             startButton.draw(spriteBatch);
-        }
     }
 
 

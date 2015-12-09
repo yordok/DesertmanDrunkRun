@@ -18,30 +18,28 @@ public class InGameUI {
     private Texture Cross, WaterJug;
     private TextureRegion BlueBar;
     private int ScrnHeight, ScrnWidth;
-    FreeTypeFontGenerator generator;
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    BitmapFont Font;
+    BitmapFont DistanceFont;
+    BitmapFont DeathFont;
 
      // don't forget to dispose to avoid memory leaks!
-    public InGameUI(Texture cross, Texture bluebar, Texture waterjug){
+    public InGameUI(Texture cross, Texture bluebar, Texture waterjug, BitmapFont distanceFont, BitmapFont deathFont){
         Cross = cross;
         WaterJug = waterjug;
         BlueBar = new TextureRegion(bluebar);
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("pixelmix.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 20;
-        parameter.color = Color.BLACK;
-        Font = generator.generateFont(parameter); // font size 12 pixels
-        generator.dispose();
-
+        DistanceFont = distanceFont;
+        DeathFont = deathFont;
         ScrnHeight = Gdx.graphics.getHeight();
         ScrnWidth = Gdx.graphics.getWidth();
     }
 
-    public void draw(SpriteBatch spriteBatch, int playerHealth, int wordlPosX, float waterLevel, float Distance){
+    public void draw(SpriteBatch spriteBatch, int playerHealth, int wordlPosX, float waterLevel, float Distance, boolean drawEndLevelUI){
         drawHealthBar(spriteBatch, playerHealth, wordlPosX);
         drawWaterBar(spriteBatch, wordlPosX, waterLevel);
         drawDistanceMeter(spriteBatch, wordlPosX, Distance);
+        if(drawEndLevelUI){
+            drawEndLevelUI(spriteBatch, wordlPosX);
+        }
+
     }
 
     public void drawHealthBar(SpriteBatch spriteBatch, int playerHealth, int worldPosX){
@@ -58,6 +56,12 @@ public class InGameUI {
 
     public void drawDistanceMeter(SpriteBatch spriteBatch, int worldPosX, float Distance){
 
-        Font.draw(spriteBatch, "DISTANCE: " + Distance, worldPosX + 50,80);
+        DistanceFont.draw(spriteBatch, "DISTANCE: " + (int)Distance, worldPosX + 50,80);
+    }
+
+    public void drawEndLevelUI(SpriteBatch spriteBatch, int worldPosX){
+        DeathFont.draw(spriteBatch, "DEAD", worldPosX + ScrnWidth/6, 3*ScrnHeight/4);
+
+
     }
 }

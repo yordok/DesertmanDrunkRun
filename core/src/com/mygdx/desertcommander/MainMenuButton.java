@@ -1,5 +1,6 @@
 package com.mygdx.desertcommander;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,6 +27,8 @@ public class MainMenuButton {
     }
 
     public void draw(SpriteBatch spriteBatch){
+        //Gdx.app.log("MENU SCREEN", "NOW DRAWING" + X + " , " + Y);
+
         spriteBatch.draw(PTexture,X,Y,Width,Height);
     }
 

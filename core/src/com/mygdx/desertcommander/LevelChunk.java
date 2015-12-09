@@ -58,8 +58,6 @@ public class LevelChunk {
             LevelChunkShell[0][5] = 1;
             LevelChunkShell[1][5] = 1;
             LevelChunkShell[2][5] = 1;
-
-
         }
         if(type == 2){
             LengthinTiles = 5;
@@ -73,8 +71,6 @@ public class LevelChunk {
             LevelChunkShell[3][5] = 1;
             LevelChunkShell[2][6] = 1;
             LevelChunkShell[0][7] = 1;
-
-
         }
 
         generateChunkObject(LevelChunkShell);
@@ -89,26 +85,37 @@ public class LevelChunk {
                 if(shell[x][y] == 1){
                     Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
                     Gdx.app.log("Positions: ", pos + "");
-                    Cactus c = new Cactus(pos, AI, TileDimension);
+                    Cactus c = new Cactus(pos, AI.cactusSprite, TileDimension);
                     ObstacleMasterList.add(c);
                 }
                 if(shell[x][y] == 2){
                     Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
                     Gdx.app.log("Positions: ", pos + "");
-                    Barrel b = new Barrel(pos, AI, (int)(TileDimension * 0.8f));
+                    Barrel b = new Barrel(pos, AI.barrelSprite, (int)(TileDimension * 0.8f));
                     ObstacleMasterList.add(b);
                 }
                 if(rnd.nextInt(100)< 10){
                     if(shell[x][y] == 0){
                         if(Chikencount < LengthinTiles-1) {
+                            shell[x][y] = 3;
                             Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
                             Gdx.app.log("Positions: ", pos + "");
-                            WaterJug ch = new WaterJug(pos, AI, (int) (TileDimension * 0.8f));
+                            WaterJug ch = new WaterJug(pos, AI.jugSprite, (int) (TileDimension * 0.8f));
                             ObstacleMasterList.add(ch);
                             Chikencount++;
                         }
                     }
                 }
+                if(rnd.nextInt(500) <= 1){
+                    if(shell[x][y] == 0){
+                        shell[x][y] = 4;
+                        Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
+                        Gdx.app.log("Positions: ", pos + "");
+                        HealthPickUp ch = new HealthPickUp(pos, AI.chickenSprite, (int) (TileDimension * 0.8f));
+                        ObstacleMasterList.add(ch);
+                    }
+                }
+
 
 
             }
