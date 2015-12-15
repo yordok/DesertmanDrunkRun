@@ -56,7 +56,7 @@ public class InGameUI {
 
     public void drawDistanceMeter(SpriteBatch spriteBatch, int worldPosX, float Distance){
 
-        DistanceFont.draw(spriteBatch, "DISTANCE: " + (int)Distance, worldPosX + 50,80);
+        DistanceFont.draw(spriteBatch, "SCORE: " + (int)Distance, worldPosX + 50,80);
     }
 
     public void drawEndLevelUI(SpriteBatch spriteBatch, int worldPosX){

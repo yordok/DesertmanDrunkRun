@@ -12,23 +12,17 @@ import java.util.ArrayList;
 
 //TODO
 //create art: change barrel to Gravel or something like that
-//create art: draw a sack of gold or something that would mean more points
-//create a points/score system
-//overall balancing, espcially of how fast the scroll speed increases and hit detection on bad things ie cactuses
+//overall balancing, especially of how fast the scroll speed increases and hit detection on bad things ie cacti
 //add more level chunk shells
-//add gold sack code in
-//perhaps make UI larger
+//add a few SFX
+//create a proper start menu
+//create a directions screen
 //STRETCH GOAL: add in something that fires at the player.
 
 /**
  * Created by jordan on 11/17/15.
  */
-/*
-we need this to:
-create a level
-restart the level
-change between the game and the menu
-*/
+
 public class MainLevel {
     float CameraScrollSpeed;
     boolean CameraIsScrolling;
@@ -44,6 +38,7 @@ public class MainLevel {
     int WaterValue;
     float WaterDepletionRate;
     float fakeDistance;
+    int score;
 
     boolean drawingEndOfLevelUI;
     boolean LEVELENDED;
@@ -76,6 +71,7 @@ public class MainLevel {
         CameraScrollSpeed = 3.0f;
         WaterValue = 5;
         fakeDistance = 0;
+        score = 0;
         WaterDepletionRate = 0.05f;
         HUD = new InGameUI(AI.redCrossSprite, AI.blueBarSprite, AI.jugSprite, AI.DistanceFont, AI.DeathFont);
         shapeRenderer = new ShapeRenderer();
@@ -89,7 +85,7 @@ public class MainLevel {
         lvlChunkManager.draw(batch);
         player.draw(batch, mainCamera);
         bulletManager.draw(batch);
-        HUD.draw(batch, player.health, (int)mainCamera.position.x - ScrnWidth/2, player.waterLevel, fakeDistance, drawingEndOfLevelUI);
+        HUD.draw(batch, player.health, (int)mainCamera.position.x - ScrnWidth/2, player.waterLevel, score, drawingEndOfLevelUI);
     }
 
     public void update(){
@@ -103,6 +99,7 @@ public class MainLevel {
             lvlChunkManager.update(screenMaxX, screenMinX);
             checkCollision(lvlChunkManager.MasterChunkList);
             fakeDistance += Gdx.graphics.getDeltaTime();
+            score += fakeDistance;
             player.move();
             //player runs out of health
             if(player.health <= 0){
@@ -170,6 +167,7 @@ public class MainLevel {
                     if(obs instanceof Cactus){
                         if(player.isInvulnerable == false) {
                             player.health--;
+
                             Gdx.app.log("Collision Detected", "CACTUS");
                             player.isInvulnerable = true;
                         }
@@ -185,17 +183,26 @@ public class MainLevel {
                     if(obs instanceof WaterJug){
                         WaterJug ch = (WaterJug)obs;
                         ObjList.remove(ch);
+                        score += 30;
                         player.waterLevel += WaterValue;
                         Gdx.app.log("Collision Detected","PICKUP WATERJUG");
                     }
                     if(obs instanceof HealthPickUp){
                         HealthPickUp hp = (HealthPickUp)obs;
                         ObjList.remove(hp);
-                        if(player.health ==3){
+                        score += 50;
+                        if(player.health < 3){
                             player.health++;
                         }
 
                         Gdx.app.log("Collision Detected","PICKUP HEALTH");
+                    }
+                    if(obs instanceof Coin){
+                        Coin coin = (Coin)obs;
+                        ObjList.remove(coin);
+                        score += 100;
+
+                        Gdx.app.log("Collision Detected","COIN");
                     }
                 }
             }

@@ -69,7 +69,7 @@ public class Player {
             if (Position.y <= 0) {
                 Position.y = 0;
             }
-            if (Position.y + currentFrame.getRegionHeight() >= Gdx.graphics.getHeight()) {
+            if (Position.y + Height >= Gdx.graphics.getHeight()) {
                 Position.y = Gdx.graphics.getHeight() - Height;
             }
             Vector3 playerVec3 = mainCam.project(new Vector3(Position.x, Position.y, 0.0f));
@@ -93,7 +93,7 @@ public class Player {
                 if (Position.y <= 0) {
                     Position.y = 0;
                 }
-                if (Position.y + currentFrame.getRegionHeight() >= Gdx.graphics.getHeight()) {
+                if (Position.y + Height >= Gdx.graphics.getHeight()) {
                     Position.y = Gdx.graphics.getHeight() - Height;
                 }
                 Vector3 playerVec3 = mainCam.project(new Vector3(Position.x, Position.y, 0.0f));

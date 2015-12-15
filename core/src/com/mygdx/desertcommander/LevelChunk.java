@@ -115,6 +115,16 @@ public class LevelChunk {
                         ObstacleMasterList.add(ch);
                     }
                 }
+                //use for coin
+                if(rnd.nextInt(750) <= 1){
+                    if(shell[x][y] == 0){
+                        shell[x][y] = 5;
+                        Vector2 pos = new Vector2((x * TileDimension) + initialX, (y * TileDimension));
+                        Gdx.app.log("Positions: ", pos + "");
+                        Coin coin = new Coin(pos, AI.coinTexture, (int) (TileDimension * 0.8f));
+                        ObstacleMasterList.add(coin);
+                    }
+                }
 
 
 

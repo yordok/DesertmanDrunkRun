@@ -24,6 +24,7 @@ public class AssetInitializer {
     public Texture redCrossSprite;
     public Texture blueBarSprite;
     public Texture startbuttonSprite;
+    public Texture coinTexture;
     public BitmapFont DeathFont, DistanceFont;
 
     public Texture sandA, sandB, sandC, sandD, sandE;
@@ -40,6 +41,7 @@ public class AssetInitializer {
             chickenSprite = new Texture("chickenleg.png");
             redCrossSprite = new Texture("RedCross.png");
             blueBarSprite = new Texture("bluebar.png");
+            coinTexture = new Texture("coin.png");
 
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("pixelmix.ttf"));
             FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
