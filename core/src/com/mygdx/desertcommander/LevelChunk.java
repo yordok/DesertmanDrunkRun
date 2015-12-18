@@ -31,7 +31,11 @@ public class LevelChunk {
         rnd = new Random();
         this.generateChunkShell(type);
     }
-
+    //1 is cactus
+    //2 is barrel
+    //3 is jug
+    //4 is chicken
+    //5 is coin
     public void generateChunkShell(int type){
         if(type == 0){
             LengthinTiles = 6;
@@ -71,6 +75,56 @@ public class LevelChunk {
             LevelChunkShell[3][5] = 1;
             LevelChunkShell[2][6] = 1;
             LevelChunkShell[0][7] = 1;
+        }
+        if(type == 3){
+            LengthinTiles = 6;
+            LengthinPixels = LengthinTiles * TileDimension;
+            LevelChunkShell = new int[LengthinTiles][NumofRows];
+            //cacti
+            LevelChunkShell[0][0] = 1;
+            LevelChunkShell[0][1] = 1;
+            LevelChunkShell[1][3] = 1;
+            LevelChunkShell[2][7] = 1;
+            LevelChunkShell[2][1] = 1;
+            LevelChunkShell[2][0] = 1;
+            LevelChunkShell[3][6] = 1;
+            LevelChunkShell[4][7] = 1;
+            LevelChunkShell[5][4] = 1;
+            LevelChunkShell[5][2] = 1;
+            //barrel
+            LevelChunkShell[1][5] = 2;
+            LevelChunkShell[2][5] = 2;
+            LevelChunkShell[3][4] = 2;
+            LevelChunkShell[4][1] = 2;
+
+        }
+        if(type == 4){
+            LengthinTiles = 10;
+            LengthinPixels = LengthinTiles * TileDimension;
+            LevelChunkShell = new int[LengthinTiles][NumofRows];
+            //cacti
+            LevelChunkShell[0][0] = 1;
+            LevelChunkShell[0][3] = 1;
+            LevelChunkShell[0][7] = 1;
+            LevelChunkShell[1][6] = 1;
+            LevelChunkShell[2][2] = 1;
+            LevelChunkShell[2][5] = 1;
+            LevelChunkShell[5][3] = 1;
+            LevelChunkShell[8][1] = 1;
+            LevelChunkShell[9][0] = 1;
+            LevelChunkShell[8][6] = 1;
+            LevelChunkShell[9][5] = 1;
+
+
+            //barrels
+            LevelChunkShell[1][2] = 2;
+            LevelChunkShell[2][1] = 2;
+            LevelChunkShell[3][1] = 2;
+            LevelChunkShell[6][7] = 2;
+            LevelChunkShell[6][1] = 2;
+            LevelChunkShell[6][2] = 2;
+            LevelChunkShell[7][1] = 2;
+
         }
 
         generateChunkObject(LevelChunkShell);

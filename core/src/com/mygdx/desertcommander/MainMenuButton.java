@@ -27,7 +27,6 @@ public class MainMenuButton {
     }
 
     public void draw(SpriteBatch spriteBatch){
-        //Gdx.app.log("MENU SCREEN", "NOW DRAWING" + X + " , " + Y);
 
         spriteBatch.draw(PTexture,X,Y,Width,Height);
     }

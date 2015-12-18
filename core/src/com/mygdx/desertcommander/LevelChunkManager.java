@@ -68,7 +68,7 @@ public class LevelChunkManager {
     }
 
     public void addRandomChunkToEnd(int ScreenMaxX){
-        int type = rnd.nextInt(3);
+        int type = rnd.nextInt(5);
         addChunkToEnd(type, ScreenMaxX);
     }
 }

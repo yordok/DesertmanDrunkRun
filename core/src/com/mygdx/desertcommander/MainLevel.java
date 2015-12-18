@@ -11,12 +11,9 @@ import java.util.ArrayList;
 
 
 //TODO
-//create art: change barrel to Gravel or something like that
 //overall balancing, especially of how fast the scroll speed increases and hit detection on bad things ie cacti
 //add more level chunk shells
 //add a few SFX
-//create a proper start menu
-//create a directions screen
 //STRETCH GOAL: add in something that fires at the player.
 
 /**
@@ -109,6 +106,7 @@ public class MainLevel {
                     public void run() {
                         //do some cool graphic here to end level
                         drawingEndOfLevelUI = true;
+                        AI.endgameSFX.play(1.0f);
 
                     }
                 }, 2.0f);
@@ -130,6 +128,7 @@ public class MainLevel {
                     public void run() {
                         //do some cool graphic here to end level
                         drawingEndOfLevelUI = true;
+                        AI.endgameSFX.play(1.0f);
 
                     }
                 }, 2.0f);
@@ -150,7 +149,7 @@ public class MainLevel {
     public void handleCamera(){
         //this needs to be fixed, needs to be 300 in the camera space, not the world space
         CameraIsScrolling = true;
-
+        //if the camera is scrolling, scroll the camera
         if(CameraIsScrolling){
             mainCamera.position.set(mainCamera.position.x + CameraScrollSpeed, mainCamera.position.y, mainCamera.position.z);
             mainCamera.update();
@@ -164,10 +163,11 @@ public class MainLevel {
             for(int j = 0; j < ObjList.size(); j++){
                 if(player.HitBox.overlaps(ObjList.get(j).getHitBox())){
                     Obstacle obs = ObjList.get(j);
+                    //if statements below are the conditions for colliding with different objects
                     if(obs instanceof Cactus){
                         if(player.isInvulnerable == false) {
                             player.health--;
-
+                            AI.hurtSFX.play(1.0f);
                             Gdx.app.log("Collision Detected", "CACTUS");
                             player.isInvulnerable = true;
                         }
@@ -175,6 +175,7 @@ public class MainLevel {
                     if(obs instanceof Barrel){
                         if(player.isSlowed == false){
                             player.isSlowed = true;
+
                             player.setSpeed(player.getSpeed() - 3.0f);
                             Gdx.app.log("Collision Detected","BARREL");
                         }
@@ -183,25 +184,26 @@ public class MainLevel {
                     if(obs instanceof WaterJug){
                         WaterJug ch = (WaterJug)obs;
                         ObjList.remove(ch);
-                        score += 30;
+                        score += 1000;
                         player.waterLevel += WaterValue;
+                        AI.waterJugSFX.play(1.0f);
                         Gdx.app.log("Collision Detected","PICKUP WATERJUG");
                     }
                     if(obs instanceof HealthPickUp){
                         HealthPickUp hp = (HealthPickUp)obs;
                         ObjList.remove(hp);
-                        score += 50;
+                        score += 1500;
                         if(player.health < 3){
                             player.health++;
                         }
-
+                        AI.healthPickupSFX.play(1.0f);
                         Gdx.app.log("Collision Detected","PICKUP HEALTH");
                     }
                     if(obs instanceof Coin){
                         Coin coin = (Coin)obs;
                         ObjList.remove(coin);
-                        score += 100;
-
+                        score += 4000;
+                        AI.coinPickupSFX.play(1.0f);
                         Gdx.app.log("Collision Detected","COIN");
                     }
                 }
@@ -215,9 +217,9 @@ public class MainLevel {
     }
 
     public InputProcessor getSwipeInput(){
-
+        //in game input processor
         InputProcessor SwipeProcessor = new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
-
+            //handles all the directions for swiping
             @Override
             public void onUp() {
 
